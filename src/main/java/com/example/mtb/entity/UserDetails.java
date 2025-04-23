@@ -38,5 +38,4 @@ public class UserDetails {
     private Long createdAt;
     private Long updatedAt;
 
-
 }

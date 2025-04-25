@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
             if (userRepository.existsByEmail(userRegistrationDTO.email())) {
                 throw new EmailAlreadyExistException("user mail already exist" + userRegistrationDTO.email());
             }
-            if (userRegistrationDTO.userRole() == UserRole.USER) {
+            if (userRegistrationDTO.role() == UserRole.USER) {
                 return userRepository.save( userRegistrationMapper.registrationUser(userRegistrationDTO));
             } else {
                 return userRepository.save(userRegistrationMapper.registrationTheaterOwner(userRegistrationDTO));

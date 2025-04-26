@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
-public record UserRegistrationDTO(
+public record UserRegistrationRequest(
         @NotNull(message = "Username cannot be null")
         @NotBlank(message = "Username is mandatory")
         @Size(min = 3, max = 20, message = "Username must be 3 to 20 characters long")

@@ -1,38 +1,41 @@
 package com.example.mtb.controller;;
 
-import com.example.mtb.dto.UserRegistrationDTO;
-import com.example.mtb.dto.UserResponseDTO;
-import com.example.mtb.entity.UserDetails;
-import com.example.mtb.mapper.UserRegistrationMapper;
+import com.example.mtb.dto.UserRegistrationRequest;
+import com.example.mtb.dto.UserResponse;
 import com.example.mtb.service.UserService;
 import com.example.mtb.utility.ResponseStructure;
 import com.example.mtb.utility.StructureResponseBuilder;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
 //@RequestMapping("/booking-shows")
 public class UserController {
-        private final UserService userService;
 
-        private final StructureResponseBuilder structureResponseBuilder;
+        private UserService userService;
+        private StructureResponseBuilder structureResponseBuilder;
 
-        private final UserRegistrationMapper userRegistrationMapper;
+        @PostMapping("/register")
+        public ResponseEntity<ResponseStructure<UserResponse>> registerUser(@Valid @RequestBody UserRegistrationRequest request) {
+                UserResponse userResponse = userService.userRegister(request);
+                return structureResponseBuilder.success(HttpStatus.CREATED,"user Registeration succssefully done",userResponse);
+        }
 
-        @PostMapping ("/register")
-        public ResponseEntity<ResponseStructure<UserResponseDTO>> registerUser(@Validated @RequestBody UserRegistrationDTO userRegistrationDTO) {
-                return structureResponseBuilder.success(HttpStatus.CREATED,"user registration successfully done",
-                        userRegistrationMapper.responseDTO(userService.userRegister(userRegistrationDTO)));
+        @DeleteMapping("/users")
+        public ResponseEntity<ResponseStructure<UserResponse>> deleteUser(@RequestParam String email){
+                UserResponse userResponse = userService.deleteUser(email);
+                return structureResponseBuilder.success(HttpStatus.OK, "User Deleted Successfully", userResponse);
+        }
+
+
+        @PutMapping("/users")
+        public ResponseEntity<ResponseStructure<UserResponse>> updateUser(@Valid @RequestBody UserRegistrationRequest request, @RequestParam String email){
+                UserResponse userResponse = userService.updateUser(request, email);
+                return structureResponseBuilder.success(HttpStatus.OK,"User Updated Successfully",userResponse);
         }
 }

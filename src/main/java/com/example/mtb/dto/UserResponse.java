@@ -4,7 +4,7 @@ import com.example.mtb.enums.UserRole;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-public record UserResponseDTO(
+public record UserResponse(
 //        @NotNull
 //        String userId,
         @NotNull

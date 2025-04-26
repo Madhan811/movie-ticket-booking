@@ -38,4 +38,8 @@ public class UserDetails {
     private Long createdAt;
     private Long updatedAt;
 
+    private boolean isDelete = false;
+
+    public void setDeleteAt(long now) {
+    }
 }
